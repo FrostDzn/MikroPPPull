@@ -215,6 +215,7 @@ class ControlPanel():
         self.selectedserver = ''
         self.selectedPPPoe = ''
         self.PPPoeBTN.configure(state='disabled')
+        self.SearchEntry.configure(state='disabled')
         for x in self.ServerListItemContainer.winfo_children():
             x.destroy()
         for i in self.PPPoeListItemContainer.winfo_children():
@@ -410,12 +411,16 @@ class ControlPanel():
             ss = dh.varRCInstance[x]
             api = RC.varAllAPI[x]['routerapi']
             isitvalid = RC.fncstaticIsisValidAPI(api)
-            for i in ss.PPPoeData:
-                combined = f"{i.get('name', '-')} {i.get('address', '-')} {i.get('profile', '-')} {i.get('comment', '-')} {i.get('caller-id', '-')} {i.get('last-logged-out', '-')} {i.get('service', '-')} {i.get('mark', '-')}".lower()
-                if all(word in combined for word in query):
-                    if ss.varIdentity not in self.filterRouterAndPPPoeList:
-                        self.filterRouterAndPPPoeList[ss.varIdentity] = []
-                    self.filterRouterAndPPPoeList[ss.varIdentity].append(i)
+            try:
+                ppp = ss.PPPoeData
+                for i in ppp:
+                    combined = f"{i.get('name', '-')} {i.get('address', '-')} {i.get('profile', '-')} {i.get('comment', '-')} {i.get('caller-id', '-')} {i.get('last-logged-out', '-')} {i.get('service', '-')} {i.get('mark', '-')}".lower()
+                    if all(word in combined for word in query):
+                        if ss.varIdentity not in self.filterRouterAndPPPoeList:
+                            self.filterRouterAndPPPoeList[ss.varIdentity] = []
+                        self.filterRouterAndPPPoeList[ss.varIdentity].append(i)
+            except Exception as e:
+                print(f'fnconsearchbg error {ss.varIdentity} : {e}')
         self.onsearch = False
         self.root.after(0, lambda: self.fncPopulateServerList())
 

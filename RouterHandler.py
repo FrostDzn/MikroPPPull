@@ -19,8 +19,8 @@ class RouterConnecter:
         self.varRouterPort = int(router_port)
         self.varPlaintext = router_plaintext
         for name, val in dh.varRouterServerData.items():
-            print(f' RH Init : {name} ---- {val.get('ip')} -- {val.get('port')}')
-            print(f' RH Init Compared : {self.varIpAddress} ---- {self.varRouterPort}')
+            #print(f' RH Init : {name} ---- {val.get('ip')} -- {val.get('port')}')
+            #print(f' RH Init Compared : {self.varIpAddress} ---- {self.varRouterPort}')
             if val.get('ip') == self.varIpAddress and int(val.get('port')) == self.varRouterPort:
                 self.varIdentity = name
                 print(f'Identity : {self.varIdentity}')
