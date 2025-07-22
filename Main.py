@@ -214,6 +214,7 @@ class ControlPanel():
     def fncSync(self, data):
         self.selectedserver = ''
         self.selectedPPPoe = ''
+        self.SearchVar.set("")
         self.PPPoeBTN.configure(state='disabled')
         self.SearchEntry.configure(state='disabled')
         for x in self.ServerListItemContainer.winfo_children():
@@ -584,6 +585,10 @@ class PopUpDialog(tk.Toplevel):
         self.headerframe.pack(side='top', fill='x')
         titlelabel = ttk.Label(self.headerframe, style='3Dark.TLabel', text=title, anchor='n', justify='center')
         titlelabel.pack(side='top', pady=10, padx=10)
+        titlelabel.bind('<Button-1>', self.fncStartmove)
+        titlelabel.bind('<B1-Motion>', self.fncMovewindow)
+        self.headerframe.bind('<Button-1>', self.fncStartmove)
+        self.headerframe.bind('<B1-Motion>', self.fncMovewindow)
         self.grab_set()
         self.running = True
         self.MainFrame = ttk.Frame(self, style="Dark.TFrame")
@@ -637,6 +642,15 @@ class PopUpDialog(tk.Toplevel):
     def fncOnClose(self):
         self.running = False
         self.destroy()
+
+    def fncStartmove(self, event):
+        self._offset_x = event.x_root - self.winfo_x()
+        self._offset_y = event.y_root - self.winfo_y()
+
+    def fncMovewindow(self, event):
+        x = event.x_root - self._offset_x
+        y = event.y_root - self._offset_y
+        self.geometry(f"+{x}+{y}")
                   
 
 class InputDialog(tk.Toplevel):

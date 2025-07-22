@@ -29,7 +29,7 @@ class RouterConnecter:
             currentAPI = RouterConnecter.varAllAPI[self.varIdentity]["routerapi"]
             currentAPIb = RouterConnecter.varAllAPI[self.varIdentity]["routerapib"]
             if currentAPI != "" and currentAPIb != "":
-                if not RouterConnecter.fncstaticIsisValidAPI(currentAPI) and not RouterConnecter.fncstaticIsisValidAPI(currentAPIb):
+                if not RouterConnecter.fncstaticIsisValidAPI(currentAPI) or not RouterConnecter.fncstaticIsisValidAPI(currentAPIb):
                     self.fncConnect()
             else:
                 self.fncConnect()
